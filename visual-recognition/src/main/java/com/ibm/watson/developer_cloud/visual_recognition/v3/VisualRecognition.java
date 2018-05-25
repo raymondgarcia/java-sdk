@@ -31,6 +31,7 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.GetClassifierO
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.GetCoreMlModelOptions;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ListClassifiersOptions;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.UpdateClassifierOptions;
+import okhttp3.Credentials;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
@@ -48,7 +49,7 @@ import java.io.InputStream;
 public class VisualRecognition extends WatsonService {
 
   private static final String SERVICE_NAME = "visual_recognition";
-  private static final String URL = "https://gateway-a.watsonplatform.net/visual-recognition/api";
+  private static final String URL = "https://gateway.watsonplatform.net/visual-recognition/api";
   private static final String DUMMY_API_KEY = "00000";
 
   private String versionDate;
@@ -151,6 +152,10 @@ public class VisualRecognition extends WatsonService {
     String[] pathSegments = { "v3/classify" };
     RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getEndPoint(), pathSegments));
     builder.query(VERSION, versionDate);
+
+    String credential = Credentials.basic("apikey", getApiKey());
+    builder.header("Authorization", credential);
+
     if (classifyOptions.acceptLanguage() != null) {
       builder.header("Accept-Language", classifyOptions.acceptLanguage());
     }
@@ -215,6 +220,8 @@ public class VisualRecognition extends WatsonService {
     String[] pathSegments = { "v3/detect_faces" };
     RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getEndPoint(), pathSegments));
     builder.query(VERSION, versionDate);
+    String credential = Credentials.basic("apikey", getApiKey());
+    builder.header("Authorization", credential);
     MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
     multipartBuilder.setType(MultipartBody.FORM);
     if (detectFacesOptions.imagesFile() != null) {
@@ -249,6 +256,8 @@ public class VisualRecognition extends WatsonService {
     String[] pathSegments = { "v3/classifiers" };
     RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getEndPoint(), pathSegments));
     builder.query(VERSION, versionDate);
+    String credential = Credentials.basic("apikey", getApiKey());
+    builder.header("Authorization", credential);
     MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
     multipartBuilder.setType(MultipartBody.FORM);
     multipartBuilder.addFormDataPart("name", createClassifierOptions.name());
@@ -282,6 +291,8 @@ public class VisualRecognition extends WatsonService {
     RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getEndPoint(), pathSegments,
         pathParameters));
     builder.query(VERSION, versionDate);
+    String credential = Credentials.basic("apikey", getApiKey());
+    builder.header("Authorization", credential);
     return createServiceCall(builder.build(), ResponseConverterUtils.getVoid());
   }
 
@@ -313,6 +324,8 @@ public class VisualRecognition extends WatsonService {
     String[] pathSegments = { "v3/classifiers" };
     RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getEndPoint(), pathSegments));
     builder.query(VERSION, versionDate);
+    String credential = Credentials.basic("apikey", getApiKey());
+    builder.header("Authorization", credential);
     if (listClassifiersOptions != null) {
       if (listClassifiersOptions.verbose() != null) {
         builder.query("verbose", String.valueOf(listClassifiersOptions.verbose()));
@@ -358,6 +371,8 @@ public class VisualRecognition extends WatsonService {
     RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getEndPoint(), pathSegments,
         pathParameters));
     builder.query(VERSION, versionDate);
+    String credential = Credentials.basic("apikey", getApiKey());
+    builder.header("Authorization", credential);
     MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
     multipartBuilder.setType(MultipartBody.FORM);
     // Classes
@@ -393,6 +408,8 @@ public class VisualRecognition extends WatsonService {
     RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getEndPoint(), pathSegments,
         pathParameters));
     builder.query(VERSION, versionDate);
+    String credential = Credentials.basic("apikey", getApiKey());
+    builder.header("Authorization", credential);
     return createServiceCall(builder.build(), ResponseConverterUtils.getInputStream());
   }
 
